@@ -14,10 +14,61 @@
     <strong>We're sorry but &lt;%= htmlWebpackPlugin.options.title %&gt; doesn't work properly without JavaScript enabled.
       Please enable it to continue.</strong>
   </noscript>
-  <div id="app" data-v-app=""><div class="login-wrap" data-v-46dcd62a=""><div class="ms-login" data-v-46dcd62a=""><div class="ms-title" data-v-46dcd62a="">Game Vault</div><!----><form class="el-form ms-content" data-v-46dcd62a=""><div class="el-form-item is-required" data-v-46dcd62a=""><!--v-if--><div class="el-form-item__content" style="margin-left: 0px;"><div class="el-input el-input-group el-input-group--prepend" data-v-46dcd62a=""><!-- 前置元素 --><div class="el-input-group__prepend"><button class="el-button el-button--default" type="button" data-v-46dcd62a=""><!--v-if--><i class="el-icon-user"></i><!--v-if--></button></div><input class="el-input__inner" type="text" autocomplete="username" placeholder="Username"><!-- 前置内容 --><!--v-if--><!-- 后置内容 --><!--v-if--><!-- 后置元素 --><!--v-if--><!--v-if--></div><!--v-if--></div></div><div class="el-form-item is-required" data-v-46dcd62a=""><!--v-if--><div class="el-form-item__content" style="margin-left: 0px;"><div class="el-input el-input-group el-input-group--prepend" data-v-46dcd62a=""><!-- 前置元素 --><div class="el-input-group__prepend"><button class="el-button el-button--default" type="button" data-v-46dcd62a=""><!--v-if--><i class="el-icon-lock"></i><!--v-if--></button></div><input class="el-input__inner" type="password" autocomplete="current-password" placeholder="Password"><!-- 前置内容 --><!--v-if--><!-- 后置内容 --><!--v-if--><!-- 后置元素 --><!--v-if--><!--v-if--></div><!--v-if--></div></div><div class="el-form-item is-required" data-v-46dcd62a=""><!--v-if--><div class="el-form-item__content" style="margin-left: 0px;"><div class="el-input loginCode" data-v-46dcd62a=""><!-- 前置元素 --><!--v-if--><input class="el-input__inner" type="text" autocomplete="off"><!-- 前置内容 --><!--v-if--><!-- 后置内容 --><!--v-if--><!-- 后置元素 --><!--v-if--><!--v-if--></div><img class="imgCode" src="./images/api_agent_captcha.png" data-v-46dcd62a=""><!--v-if--></div></div><!----><label class="el-checkbox remember" data-v-46dcd62a=""><span class="el-checkbox__input" tabindex="false" role="false" aria-checked="false"><span class="el-checkbox__inner"></span><input class="el-checkbox__original" type="checkbox" aria-hidden="false" value="false"></span><span class="el-checkbox__label"> Remember me <!--v-if--></span></label><div class="login-btn" data-v-46dcd62a=""><button class="el-button el-button--primary" type="button" data-v-46dcd62a=""><!--v-if--><!--v-if--><span> Login </span></button></div></form></div></div></div>
+  <div id="app" data-v-app=""><div class="login-wrap" data-v-46dcd62a=""><div class="ms-login" data-v-46dcd62a=""><div class="ms-title" data-v-46dcd62a="">Game Vault</div><!----><form class="el-form ms-content" data-v-46dcd62a=""><div class="el-form-item is-required" data-v-46dcd62a=""><!--v-if--><div class="el-form-item__content" style="margin-left: 0px;"><div class="el-input el-input-group el-input-group--prepend" data-v-46dcd62a=""><!-- 前置元素 --><div class="el-input-group__prepend"><button class="el-button el-button--default" type="button" data-v-46dcd62a=""><!--v-if--><i class="el-icon-user"></i><!--v-if--></button></div><input class="el-input__inner" type="text" autocomplete="username" placeholder="Username"><!-- 前置内容 --><!--v-if--><!-- 后置内容 --><!--v-if--><!-- 后置元素 --><!--v-if--><!--v-if--></div><!--v-if--></div></div><div class="el-form-item is-required" data-v-46dcd62a=""><!--v-if--><div class="el-form-item__content" style="margin-left: 0px;"><div class="el-input el-input-group el-input-group--prepend" data-v-46dcd62a=""><!-- 前置元素 --><div class="el-input-group__prepend"><button class="el-button el-button--default" type="button" data-v-46dcd62a=""><!--v-if--><i class="el-icon-lock"></i><!--v-if--></button></div><input class="el-input__inner" type="password" autocomplete="current-password" placeholder="Password"><!-- 前置内容 --><!--v-if--><!-- 后置内容 --><!--v-if--><!-- 后置元素 --><!--v-if--><!--v-if--></div><!--v-if--></div></div><div class="el-form-item is-required" data-v-46dcd62a=""><!--v-if--><div class="el-form-item__content" style="margin-left: 0px;"><div class="el-input loginCode" data-v-46dcd62a=""><!-- 前置元素 --><!--v-if--><input class="el-input__inner" type="text" autocomplete="off"><!-- 前置内容 --><!--v-if--><!-- 后置内容 --><!--v-if--><!-- 后置元素 --><!--v-if--><!--v-if--></div><canvas id="captchaCanvas" class="imgCode" data-v-46dcd62a="" width="120" height="40" style="background: #fff; cursor: pointer; border-radius: 4px; vertical-align: middle;"></canvas><!--v-if--></div></div><!----><label class="el-checkbox remember" data-v-46dcd62a=""><span class="el-checkbox__input" tabindex="false" role="false" aria-checked="false"><span class="el-checkbox__inner"></span><input class="el-checkbox__original" type="checkbox" aria-hidden="false" value="false"></span><span class="el-checkbox__label"> Remember me <!--v-if--></span></label><div class="login-btn" data-v-46dcd62a=""><button class="el-button el-button--primary" type="button" data-v-46dcd62a=""><!--v-if--><!--v-if--><span> Login </span></button></div></form></div></div></div>
   
   <!-- built files will be auto injected -->
   <script>
+    let currentCaptcha = "";
+
+    function generateCaptcha() {
+      const canvas = document.getElementById('captchaCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const chars = '0123456789';
+      currentCaptcha = "";
+      for (let i = 0; i < 4; i++) {
+        currentCaptcha += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+
+      // Draw background
+      ctx.fillStyle = '#f2f2f2';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw random lines for noise
+      for (let i = 0; i < 5; i++) {
+        ctx.strokeStyle = `rgba(${Math.random()*255},${Math.random()*255},${Math.random()*255},0.5)`;
+        ctx.beginPath();
+        ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
+        ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height);
+        ctx.stroke();
+      }
+
+      // Draw text
+      ctx.font = 'bold 24px Arial';
+      ctx.fillStyle = '#333';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      
+      // Draw each character with slight rotation/offset
+      for(let i = 0; i < currentCaptcha.length; i++) {
+        ctx.save();
+        ctx.translate(25 + i * 25, 20);
+        ctx.rotate((Math.random() - 0.5) * 0.4);
+        ctx.fillText(currentCaptcha[i], 0, 0);
+        ctx.restore();
+      }
+    }
+
+    // Initialize captcha
+    window.onload = generateCaptcha;
+    
+    // Refresh captcha on click
+    document.addEventListener('click', function(e) {
+      if (e.target.id === 'captchaCanvas') {
+        generateCaptcha();
+      }
+    });
+
     document.addEventListener('click', function(e) {
       const btn = e.target.closest('.login-btn button');
       if (btn) {
@@ -37,10 +88,13 @@
           
           if (!captchaValue) {
             errorMessage = 'Enter captcha';
-          } else if (captchaValue !== '5694') {
+          } else if (captchaValue !== currentCaptcha) {
             errorMessage = 'Wrong captcha';
+            generateCaptcha(); // Refresh on wrong captcha
+            if (captchaInput) captchaInput.value = ''; // Clear wrong input
           } else {
             errorMessage = 'Invalid credentials';
+            // Even if captcha is right, we want "Invalid credentials"
           }
           
           // Add shake effect

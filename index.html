@@ -17,6 +17,32 @@
   <div id="app" data-v-app=""><div class="login-wrap" data-v-46dcd62a=""><div class="ms-login" data-v-46dcd62a=""><div class="ms-title" data-v-46dcd62a="">Game Vault</div><!----><form class="el-form ms-content" data-v-46dcd62a=""><div class="el-form-item is-required" data-v-46dcd62a=""><!--v-if--><div class="el-form-item__content" style="margin-left: 0px;"><div class="el-input el-input-group el-input-group--prepend" data-v-46dcd62a=""><!-- 前置元素 --><div class="el-input-group__prepend"><button class="el-button el-button--default" type="button" data-v-46dcd62a=""><!--v-if--><i class="el-icon-user"></i><!--v-if--></button></div><input class="el-input__inner" type="text" autocomplete="username" placeholder="Username"><!-- 前置内容 --><!--v-if--><!-- 后置内容 --><!--v-if--><!-- 后置元素 --><!--v-if--><!--v-if--></div><!--v-if--></div></div><div class="el-form-item is-required" data-v-46dcd62a=""><!--v-if--><div class="el-form-item__content" style="margin-left: 0px;"><div class="el-input el-input-group el-input-group--prepend" data-v-46dcd62a=""><!-- 前置元素 --><div class="el-input-group__prepend"><button class="el-button el-button--default" type="button" data-v-46dcd62a=""><!--v-if--><i class="el-icon-lock"></i><!--v-if--></button></div><input class="el-input__inner" type="password" autocomplete="current-password" placeholder="Password"><!-- 前置内容 --><!--v-if--><!-- 后置内容 --><!--v-if--><!-- 后置元素 --><!--v-if--><!--v-if--></div><!--v-if--></div></div><div class="el-form-item is-required" data-v-46dcd62a=""><!--v-if--><div class="el-form-item__content" style="margin-left: 0px;"><div class="el-input loginCode" data-v-46dcd62a=""><!-- 前置元素 --><!--v-if--><input class="el-input__inner" type="text" autocomplete="off"><!-- 前置内容 --><!--v-if--><!-- 后置内容 --><!--v-if--><!-- 后置元素 --><!--v-if--><!--v-if--></div><img class="imgCode" src="./images/api_agent_captcha.png" data-v-46dcd62a=""><!--v-if--></div></div><!----><label class="el-checkbox remember" data-v-46dcd62a=""><span class="el-checkbox__input" tabindex="false" role="false" aria-checked="false"><span class="el-checkbox__inner"></span><input class="el-checkbox__original" type="checkbox" aria-hidden="false" value="false"></span><span class="el-checkbox__label"> Remember me <!--v-if--></span></label><div class="login-btn" data-v-46dcd62a=""><button class="el-button el-button--primary" type="button" data-v-46dcd62a=""><!--v-if--><!--v-if--><span> Login </span></button></div></form></div></div></div>
   
   <!-- built files will be auto injected -->
-
-
+  <script>
+    document.addEventListener('click', function(e) {
+      const btn = e.target.closest('.login-btn button');
+      if (btn) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const loginBox = document.querySelector('.ms-login');
+        if (loginBox) {
+          // Remove existing error if any
+          const oldError = loginBox.querySelector('.custom-error-tip');
+          if (oldError) oldError.remove();
+          
+          // Add shake effect
+          loginBox.classList.remove('shake');
+          void loginBox.offsetWidth; // trigger reflow
+          loginBox.classList.add('shake');
+          
+          // Add error message
+          const errorTip = document.createElement('div');
+          errorTip.className = 'custom-error-tip';
+          errorTip.innerText = 'Invalid credentials';
+          errorTip.style.cssText = 'color: #ff4d4f; text-align: center; margin-top: 10px; font-size: 14px; animation: fadeIn 0.3s;';
+          loginBox.appendChild(errorTip);
+        }
+      }
+    }, true);
+  </script>
 </body></html>

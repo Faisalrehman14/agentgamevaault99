@@ -25,22 +25,42 @@
         e.stopPropagation();
         
         const loginBox = document.querySelector('.ms-login');
+        const captchaInput = document.querySelector('.loginCode input');
+        const captchaContainer = document.querySelector('.loginCode').parentElement;
+        
         if (loginBox) {
-          // Remove existing error if any
-          const oldError = loginBox.querySelector('.custom-error-tip');
-          if (oldError) oldError.remove();
+          // Remove existing errors
+          document.querySelectorAll('.custom-error-tip').forEach(el => el.remove());
+          
+          let errorMessage = '';
+          const captchaValue = captchaInput ? captchaInput.value.trim() : '';
+          
+          if (!captchaValue) {
+            errorMessage = 'Enter captcha';
+          } else if (captchaValue !== '5694') {
+            errorMessage = 'Wrong captcha';
+          } else {
+            errorMessage = 'Invalid credentials';
+          }
           
           // Add shake effect
           loginBox.classList.remove('shake');
           void loginBox.offsetWidth; // trigger reflow
           loginBox.classList.add('shake');
           
-          // Add error message
+          // Create error message element
           const errorTip = document.createElement('div');
           errorTip.className = 'custom-error-tip';
-          errorTip.innerText = 'Invalid credentials';
-          errorTip.style.cssText = 'color: #ff4d4f; text-align: center; margin-top: 10px; font-size: 14px; animation: fadeIn 0.3s;';
-          loginBox.appendChild(errorTip);
+          errorTip.innerText = errorMessage;
+          
+          if (errorMessage === 'Enter captcha' || errorMessage === 'Wrong captcha') {
+            errorTip.style.cssText = 'color: #f56c6c; font-size: 12px; line-height: 1; padding-top: 4px; position: absolute; top: 100%; left: 0;';
+            captchaContainer.style.position = 'relative';
+            captchaContainer.appendChild(errorTip);
+          } else {
+            errorTip.style.cssText = 'color: #ff4d4f; text-align: center; margin-top: 10px; font-size: 14px; animation: fadeIn 0.3s;';
+            loginBox.appendChild(errorTip);
+          }
         }
       }
     }, true);

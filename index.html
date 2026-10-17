@@ -69,6 +69,20 @@
       }
     });
 
+    // Remember me toggle logic
+    document.addEventListener('click', function(e) {
+      const checkbox = e.target.closest('.el-checkbox.remember');
+      if (checkbox) {
+        const inputSpan = checkbox.querySelector('.el-checkbox__input');
+        if (inputSpan) {
+          const isChecked = inputSpan.classList.toggle('is-checked');
+          inputSpan.setAttribute('aria-checked', isChecked);
+          const nativeInput = checkbox.querySelector('.el-checkbox__original');
+          if (nativeInput) nativeInput.checked = isChecked;
+        }
+      }
+    });
+
     document.addEventListener('click', function(e) {
       const btn = e.target.closest('.login-btn button');
       if (btn) {
